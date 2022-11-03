@@ -1,0 +1,6 @@
+{ 
+  "dwl.emobility.menu.evse": "Charging Stations",
+  "dwl.emobility.menu.transactions": "Transactions",
+
+  "dwl.emobility.btn.download.csv": "Download *.csv"
+}

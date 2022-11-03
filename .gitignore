@@ -1,0 +1,26 @@
+/**/target/
+/**/node/
+/**/node_modules/
+/**/dist/
+
+/**/.classpath
+/**/.project
+/**/.angular
+/**/*.jar
+/**/.mvn/
+/**/.settings/
+/**/*.orig
+/**/.idea/
+/**/*.iml
+/data/*
+derby.log
+/log/
+
+.vscode/*
+/**/.factorypath
+
+# Runtime Data
+/*/log/*
+/*/data/*
+/*/debug/*
+/*/derby.log

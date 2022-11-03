@@ -1,0 +1,7 @@
+{ 
+  "dwl.emobility.menu.evse": "Ladestationen",
+  "dwl.emobility.menu.transactions": "Ladevorgänge",
+  "dwl.emobility.menu.statistic": "Statistik",
+
+  "dwl.emobility.btn.download.csv": "Download *.csv"
+}

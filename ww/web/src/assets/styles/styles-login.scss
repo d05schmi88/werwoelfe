@@ -1,0 +1,136 @@
+@import "styles-variables";
+
+.background {
+  position: relative;
+  padding: 180px 0 0 0;
+  height: 100%;
+
+  .actions {
+    margin: 0 auto;
+    border-radius: 25px;
+    background-color: rgba(240, 240, 240, 0.8);
+    width: 400px;
+    padding: 20px 40px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.9);
+
+    form {
+      color: black;
+      text-align: center;
+      font-size: 16px;
+
+      mat-form-field {
+        color: black;
+        width: 100%;
+      }
+
+      button {
+        margin: 8px auto;
+        width: 60%;
+        background-color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url("../intro.jpg") no-repeat center top;
+    background-size: auto, auto;
+    opacity: 0.7;
+    content: "";
+    z-index: 0;
+  }
+
+  .gradient {
+    &::before {
+      position: absolute;
+      top: 51%;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      content: "";
+      z-index: 0;
+    }
+  }
+
+  .container {
+    position: relative;
+  }
+
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    .actions {
+      width: 100%;
+    }
+  }
+}
+
+.background-non-desktop {
+  position: relative;
+  padding: 12vh 0 0 0;
+  height: 100%;
+
+  .actions {
+    margin: 0 auto;
+    border-radius: 25px;
+    background-color: rgba(240, 240, 240, 0.8);
+    width: 400px;
+    padding: 20px 40px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+
+    form {
+      color: black;
+      text-align: center;
+      font-size: 16px;
+
+      mat-form-field {
+        color: black;
+        width: 100%;
+      }
+
+      button {
+        margin: 8px auto;
+        width: 60%;
+        background-color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url("../intro_small.jpg") no-repeat center top;
+    background-size: cover;
+    opacity: 0.7;
+    content: "";
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+  }
+}
+
+.form-title {
+  text-align: center;
+  color: rgb(50, 50, 50);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form-subtitle {
+  text-align: center;
+  color: rgb(50, 50, 50);
+  margin-top: -10px;
+  font-size: 18px;
+}

@@ -1,0 +1,7 @@
+@use "@angular/material" as mat;
+
+$ww-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
+$ww-accent: mat.define-palette(mat.$light-blue-palette);
+$ww-warn: mat.define-palette(mat.$pink-palette, 600);
+
+$ww-theme: mat.define-light-theme($ww-primary, $ww-accent, $ww-warn);

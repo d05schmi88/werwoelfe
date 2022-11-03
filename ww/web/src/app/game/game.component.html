@@ -1,0 +1,213 @@
+<div class="fullsize wrapper">
+    <img class="img" src="/assets/werwolf.png" alt="">
+
+    <div style="float: right; margin-right: 10px; font-size: small;" class="content white-font">
+        <button mat-flat-button style="margin-right: 2px; background: rgb(0, 0, 0, 0); color: white;"
+            (click)="neustart()">
+            <mat-icon>refresh</mat-icon> Neustart
+        </button>
+        <mat-checkbox [(ngModel)]="admin" style="font-size: small">
+            Admin
+        </mat-checkbox>
+    </div>
+
+    <div *ngIf="zustand === 'VORBEREITUNG'" class="content white-font">
+        <div *ngIf="spielerAuswahl.length > 0">
+            <span *ngIf="!registriert">
+                <div style="margin-top: 20vh;">
+                    <div style="text-decoration: underline;"><b>Dein Name</b></div>
+                    <div *ngFor="let p of spielerAuswahl">
+                        <mat-checkbox [(ngModel)]="p.checked">
+                            {{p.name}}
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div style="margin-top: 5vh">
+                    <div style="text-decoration: underline;"><b>Deine Rolle</b></div>
+                    <div *ngFor="let r of rollen">
+                        <mat-checkbox [(ngModel)]="r.checked">
+                            {{r.name}}
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+                <div style="margin-top: 5vh">
+                    <button mat-raised-button class="success" (click)="apply()"
+                        [disabled]="!spielerRolleGueltig()">Bestätigen</button>
+                </div>
+            </span>
+            <span *ngIf="registriert">
+                <div style="margin-top: 20vh;">
+                    <div><b>Registriert</b></div>
+                </div>
+            </span>
+        </div>
+        <div *ngIf="spielerAuswahl.length === 0" style="margin-top: 20vh;">
+            Es wurde noch kein Spiel gestartet.
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'AMOR' && istSpielerAmor()" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Amor, in wen möchtest du dich verlieben?</b>
+        </div>
+        <div class="grid-row" style="margin-top: 5vh;">
+            <div *ngFor="let player of getSpielerLebendOhneSelbst()">
+                <button mat-raised-button class="success" (click)="verlieben(player.name)">
+                    {{ player.name }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'VERLIEBEN' && istSpielerAmor()" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Du bist verliebt in {{ verliebter.name }}.</b>
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'VERLIEBEN' && istSpielerVerliebter()" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Du bist verliebt in {{ amor.name }}.</b>
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'WERWOLF' && istSpielerWerwolfUndLebend()" class="content white-font">
+        <div *ngIf="!magenVerdorben">
+            <div style="margin-top: 20vh;">
+                <b>Werwölfe, wen wollt ihr fressen?</b>
+            </div>
+            <div class="grid-row" style="margin-top: 5vh;">
+                <div *ngFor="let player of getSpielerLebend()">
+                    <button mat-raised-button class="success" (click)="fressen(player.name)">
+                        {{ player.name }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="magenVerdorben">
+            <div style="margin-top: 20vh;">
+                <b>Ihr habt euch den Magen verdorben</b>
+            </div>
+
+            <div style="margin-top: 5vh;">
+                <button mat-raised-button class="success" (click)="weiterMagenVerdorben()">
+                    Weiter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'HEXE_HEILEN' && istSpielerHexeUndLebend()" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Es soll sterben:</b> <br> <br>
+            <div style="text-decoration: underline;"><b>{{getSollSterben()}}</b></div>
+        </div>
+
+        <div style="margin-top: 10vh;">
+            <b>Hexe, möchtest du heilen?</b>
+        </div>
+
+        <div style="margin-top: 5vh;">
+            <button mat-raised-button class="ok" class="success" style="margin-right: 2px;" (click)="heilen()"
+                [disabled]="hatGeheilt || getSollSterben() === '-------'">Ja</button>
+            <button mat-raised-button class="ok" class="success" style="margin-left: 2px;"
+                (click)="nichtHeilen()">Nein</button>
+        </div>
+    </div>
+
+    <span *ngIf="zustand === 'HEXE_TOETEN' && istSpielerHexeUndLebend()" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Hexe, möchtest du jemanden töten?</b>
+        </div>
+
+        <div class="grid-row" style="margin-top: 5vh;">
+            <div>
+                <button mat-raised-button class="success" (click)="nichtToeten()">
+                    -------
+                </button>
+            </div>
+            <div *ngFor="let player of getSpielerLebendOhneSelbst()">
+                <button mat-raised-button class="success" (click)="toeten(player.name)" [disabled]="hatGetoetet">
+                    {{ player.name }}
+                </button>
+            </div>
+        </div>
+    </span>
+
+    <span *ngIf="zustand === 'SEHERIN' && istSpielerSeherinUndLebend()" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Seherin, wen willst du prüfen?</b>
+        </div>
+
+        <div class="grid-row" style="margin-top: 5vh;">
+            <div *ngFor="let player of getSpielerLebendOhneSelbst()">
+                <button mat-raised-button class="success" (click)="pruefen(player.name)" [disabled]="pruefergebnis">
+                    {{ player.name }}
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="pruefergebnis" style="margin-top: 5vh; text-decoration: underline;">
+            <b>{{pruefterName}} ist {{pruefergebnis}}!</b>
+        </div>
+
+        <div *ngIf="pruefergebnis" style="margin-top: 5vh;">
+            <button mat-raised-button class="success" (click)="weiterPruefung()">
+                Weiter
+            </button>
+        </div>
+    </span>
+
+    <span *ngIf="zustand === 'DORF_ERWACHT'" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Die Opfer der Nacht:</b> <br> <br>
+            <div style="text-decoration: underline;"><b>{{getOpfer()}}</b></div>
+        </div>
+
+        <div style="margin-top: 5vh;">
+            <button mat-raised-button class="success" (click)="weiter()">
+                Weiter
+            </button>
+        </div>
+    </span>
+
+    <span *ngIf="zustand === 'TAG'" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Wen wollt ihr hängen?</b>
+        </div>
+
+        <div class="grid-row" style="margin-top: 5vh;">
+            <div *ngFor="let player of getSpielerLebend()">
+                <button mat-raised-button class="success" (click)="lynchen(player.name)">
+                    {{ player.name }}
+                </button>
+            </div>
+        </div>
+    </span>
+
+    <span *ngIf="zustand === 'TAG_ENDE'" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Die Opfer des Tages:</b> <br> <br>
+            <div style="text-decoration: underline;"><b>{{getOpfer()}}</b></div>
+        </div>
+
+        <div style="margin-top: 5vh;">
+            <button mat-raised-button class="success" (click)="weiter()">
+                Weiter
+            </button>
+        </div>
+    </span>
+
+    <span *ngIf="zustand === 'WERWOLF_GEWONNEN'" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Die Werwölfe haben gewonnen!</b>
+        </div>
+    </span>
+
+    <span *ngIf="zustand === 'DORF_GEWONNEN'" class="content white-font">
+        <div style="margin-top: 20vh;">
+            <b>Das Dorf hat gewonnen!</b>
+        </div>
+    </span>
+</div>

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ww": "file:web"
+  }
+}
