@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { NotificationService } from '../animations/notification.service';
 import { AppService } from '../app.service';
@@ -11,7 +12,7 @@ import { AppService } from '../app.service';
 export class GameComponent implements OnInit, OnDestroy {
 
   /** Local */
-  admin = false;
+  _admin = false;
 
   spielerAuswahl = [];
   rollen = [
@@ -52,8 +53,20 @@ export class GameComponent implements OnInit, OnDestroy {
 
   constructor(
     private appService: AppService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) { }
+
+  get admin() {
+
+    return this._admin;
+  }
+
+  set admin(admin) {
+
+    localStorage.setItem('admin', '' + admin);
+    this._admin = admin;
+  }
 
   spielerRolleGueltig() {
 
@@ -79,6 +92,10 @@ export class GameComponent implements OnInit, OnDestroy {
 
     if (localStorage.getItem('spieler')) {
       this.spielerName = localStorage.getItem('spieler');
+    }
+
+    if (localStorage.getItem('admin')) {
+      this._admin = localStorage.getItem('admin') === 'true';
     }
 
     const source = interval(1000);
@@ -109,7 +126,11 @@ export class GameComponent implements OnInit, OnDestroy {
 
           const letzterZustand = this.zustand;
           this.zustand = data.zustand;
-          console.log(data.zustand);
+
+          if (letzterZustand !== 'VORBEREITUNG' && this.zustand === 'VORBEREITUNG') {
+
+            this.neustart();
+          }
 
           this.spiel(letzterZustand);
         })
@@ -120,6 +141,7 @@ export class GameComponent implements OnInit, OnDestroy {
   spiel(letzterZustand) {
 
     if (this.admin) {
+
       if (letzterZustand !== 'NACHT' && this.zustand === 'NACHT') {
 
         this.spieleAudio("../../../assets/sounds/Nacht.m4a");
@@ -147,25 +169,41 @@ export class GameComponent implements OnInit, OnDestroy {
         setTimeout(() => this.spieleAudio("../../../assets/sounds/Werwoelfe_toeten.m4a"), timeout);
       }
 
+      if (letzterZustand !== 'WERWOLF_ENDE' && this.zustand === 'WERWOLF_ENDE') {
+
+        this.spieleAudio("../../../assets/sounds/Werwoelfe_ende.m4a");
+        this.weiter();
+      }
+
       if (letzterZustand !== 'HEXE_HEILEN' && this.zustand === 'HEXE_HEILEN') {
-        setTimeout(() => this.spieleAudio("../../../assets/sounds/Hexe_heilen.m4a"), 4000);
+        setTimeout(() => this.spieleAudio("../../../assets/sounds/Hexe_heilen.m4a"), 5000);
         if (!this.hexe.lebend) {
           setTimeout(() => this.nichtHeilen(), 15000);
         }
       }
 
       if (letzterZustand !== 'HEXE_TOETEN' && this.zustand === 'HEXE_TOETEN') {
-        setTimeout(() => this.spieleAudio("../../../assets/sounds/Hexe_toeten.m4a"), 2000);
+        this.spieleAudio("../../../assets/sounds/Hexe_toeten.m4a");
         if (!this.hexe.lebend) {
           setTimeout(() => this.nichtToeten(), 12000);
         }
       }
 
+      if (letzterZustand !== 'HEXE_ENDE' && this.zustand === 'HEXE_ENDE') {
+        this.spieleAudio("../../../assets/sounds/Hexe_ende.m4a");
+        this.weiter();
+      }
+
       if (letzterZustand !== 'SEHERIN' && this.zustand === 'SEHERIN') {
-        setTimeout(() => this.spieleAudio("../../../assets/sounds/Seherin_pruefen.m4a"), 4000);
+        setTimeout(() => this.spieleAudio("../../../assets/sounds/Seherin_pruefen.m4a"), 5000);
         if (!this.seherin.lebend) {
           setTimeout(() => this.weiterPruefung(), 15000);
         }
+      }
+
+      if (letzterZustand !== 'SEHERIN_ENDE' && this.zustand === 'SEHERIN_ENDE') {
+        this.spieleAudio("../../../assets/sounds/Seherin_ende.m4a");
+        this.weiter();
       }
 
       if (letzterZustand !== 'DORF_ERWACHT' && this.zustand === 'DORF_ERWACHT') {
@@ -266,7 +304,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   async fressen(name: string) {
 
-    this.spieleAudio("../../../assets/sounds/Werwoelfe_ende.m4a");
     await this.appService.fressen(name).toPromise();
   }
 
@@ -282,13 +319,11 @@ export class GameComponent implements OnInit, OnDestroy {
 
   async toeten(name: string) {
 
-    this.spieleAudio("../../../assets/sounds/Hexe_ende.m4a");
     await this.appService.toeten(name).toPromise();
   }
 
   async nichtToeten() {
 
-    this.spieleAudio("../../../assets/sounds/Hexe_ende.m4a");
     await this.appService.nichtToeten().toPromise();
   }
 
@@ -300,8 +335,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   async weiterPruefung() {
 
-    this.spieleAudio("../../../assets/sounds/Seherin_ende.m4a");
-    await this.appService.weiter().toPromise();
+    await this.weiter();
     this.pruefterName = undefined;
     this.pruefergebnis = undefined;
   }
@@ -313,7 +347,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   async weiterMagenVerdorben() {
 
-    this.spieleAudio("../../../assets/sounds/Werwoelfe_ende.m4a");
     await this.appService.weiterMagenVerdorben().toPromise();
   }
 
@@ -329,8 +362,14 @@ export class GameComponent implements OnInit, OnDestroy {
     }
 
     this.spielerAuswahl.forEach(p => p.checked = false);
+    this.rollen.forEach(r => r.checked = false);
     this.spielerName = undefined;
     localStorage.setItem('spieler', undefined);
     this.registriert = false;
+  }
+
+  erstellen() {
+
+    this.router.navigate(['/create']);
   }
 }

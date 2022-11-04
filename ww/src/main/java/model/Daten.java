@@ -149,6 +149,8 @@ public class Daten {
         } else if (zustand == Zustand.VERLIEBEN) {
             zustand = Zustand.WERWOLF;
         } else if (zustand == Zustand.WERWOLF) {
+            zustand = Zustand.WERWOLF_ENDE;
+        } else if (zustand == Zustand.WERWOLF_ENDE) {
             if (hexe != null) {
                 zustand = Zustand.HEXE_HEILEN;
             } else if (seherin != null) {
@@ -160,6 +162,8 @@ public class Daten {
         } else if (zustand == Zustand.HEXE_HEILEN) {
             zustand = Zustand.HEXE_TOETEN;
         } else if (zustand == Zustand.HEXE_TOETEN) {
+            zustand = Zustand.HEXE_ENDE;
+        } else if (zustand == Zustand.HEXE_ENDE) {
             if (seherin != null) {
                 zustand = Zustand.SEHERIN;
             } else {
@@ -167,6 +171,8 @@ public class Daten {
                 zustand = Zustand.DORF_ERWACHT;
             }
         } else if (zustand == Zustand.SEHERIN) {
+            zustand = Zustand.SEHERIN_ENDE;
+        } else if (zustand == Zustand.SEHERIN_ENDE) {
             aktualisiereOpfer();
             zustand = Zustand.DORF_ERWACHT;
         } else if (zustand == Zustand.DORF_ERWACHT) {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { NotificationService } from '../../animations/notification.service';
 import { AppService } from '../../app.service';
 
@@ -14,7 +15,8 @@ export class PlayersComponent {
 
   constructor(
     private appService: AppService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) { }
 
   neuerSpieler() {
@@ -27,7 +29,10 @@ export class PlayersComponent {
   weiter() {
 
     this.appService.setSpieler(this.spieler.filter(p => p.name)).toPromise()
-      .then(res => this.gestartet = true)
+      .then(res => {
+        this.gestartet = true;
+        this.router.navigate(['/game']);
+      })
       .catch(error => this.notificationService.error('Es ist ein Fehler aufgetreten.'));
   }
 }

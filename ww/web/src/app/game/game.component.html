@@ -2,11 +2,14 @@
     <img class="img" src="/assets/werwolf.png" alt="">
 
     <div style="float: right; margin-right: 10px; font-size: small;" class="content white-font">
-        <button mat-flat-button style="margin-right: 2px; background: rgb(0, 0, 0, 0); color: white;"
-            (click)="neustart()">
+        <button *ngIf="admin" mat-flat-button style="background: rgb(0, 0, 0, 0); color: white;" (click)="neustart()">
             <mat-icon>refresh</mat-icon> Neustart
         </button>
-        <mat-checkbox [(ngModel)]="admin" style="font-size: small">
+        <button *ngIf="admin" mat-flat-button style="margin-right: 20px; background: rgb(0, 0, 0, 0); color: white;"
+            (click)="erstellen()">
+            <mat-icon>play_arrow</mat-icon> Erstellen
+        </button>
+        <mat-checkbox [(ngModel)]="admin" style="margin-right: 4px; margin-top: 8px;">
             Admin
         </mat-checkbox>
     </div>
@@ -159,7 +162,7 @@
         </div>
     </span>
 
-    <span *ngIf="zustand === 'DORF_ERWACHT'" class="content white-font">
+    <span *ngIf="zustand === 'DORF_ERWACHT' && admin" class="content white-font">
         <div style="margin-top: 20vh;">
             <b>Die Opfer der Nacht:</b> <br> <br>
             <div style="text-decoration: underline;"><b>{{getOpfer()}}</b></div>
@@ -172,7 +175,7 @@
         </div>
     </span>
 
-    <span *ngIf="zustand === 'TAG'" class="content white-font">
+    <span *ngIf="zustand === 'TAG' && admin" class="content white-font">
         <div style="margin-top: 20vh;">
             <b>Wen wollt ihr hängen?</b>
         </div>
@@ -186,7 +189,7 @@
         </div>
     </span>
 
-    <span *ngIf="zustand === 'TAG_ENDE'" class="content white-font">
+    <span *ngIf="zustand === 'TAG_ENDE' && admin" class="content white-font">
         <div style="margin-top: 20vh;">
             <b>Die Opfer des Tages:</b> <br> <br>
             <div style="text-decoration: underline;"><b>{{getOpfer()}}</b></div>
