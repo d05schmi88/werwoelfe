@@ -181,6 +181,11 @@
         </div>
 
         <div class="grid-row" style="margin-top: 5vh;">
+            <div>
+                <button mat-raised-button class="success" (click)="nichtLynchen()">
+                    -------
+                </button>
+            </div>
             <div *ngFor="let player of getSpielerLebend()">
                 <button mat-raised-button class="success" (click)="lynchen(player.name)">
                     {{ player.name }}

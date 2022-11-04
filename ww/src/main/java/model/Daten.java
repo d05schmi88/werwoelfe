@@ -228,13 +228,15 @@ public class Daten {
         opfer = spieler.stream().filter(Spieler::isSollSterben) //
                 .map(p -> new Opfer(p.getName(), getGesinnung(p.getName()))).collect(toList());
 
-        for (Opfer o : Lists.newArrayList(opfer)) {
-            if (Objects.equal(o.getName(), amor.getName())
-                    && opfer.stream().noneMatch(v -> Objects.equal(v.getName(), verliebter.getName()))) {
-                opfer.add(new Opfer(verliebter.getName(), getGesinnung(verliebter.getName())));
-            } else if (Objects.equal(o.getName(), verliebter.getName())
-                    && opfer.stream().noneMatch(v -> Objects.equal(v.getName(), amor.getName()))) {
-                opfer.add(new Opfer(amor.getName(), getGesinnung(amor.getName())));
+        if (amor != null && verliebter != null) {
+            for (Opfer o : Lists.newArrayList(opfer)) {
+                if (Objects.equal(o.getName(), amor.getName())
+                        && opfer.stream().noneMatch(v -> Objects.equal(v.getName(), verliebter.getName()))) {
+                    opfer.add(new Opfer(verliebter.getName(), getGesinnung(verliebter.getName())));
+                } else if (Objects.equal(o.getName(), verliebter.getName())
+                        && opfer.stream().noneMatch(v -> Objects.equal(v.getName(), amor.getName()))) {
+                    opfer.add(new Opfer(amor.getName(), getGesinnung(amor.getName())));
+                }
             }
         }
 

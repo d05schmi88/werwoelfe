@@ -71,6 +71,11 @@ export class AppService {
         return this.http.post(`${this.url}/lynchen`, name);
     }
 
+    public nichtLynchen() {
+
+        return this.http.get(`${this.url}/nichtLynchen`);
+    }
+
     public verlieben(name: string) {
 
         return this.http.post(`${this.url}/verlieben`, name);

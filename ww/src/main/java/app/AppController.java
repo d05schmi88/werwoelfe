@@ -108,6 +108,13 @@ public class AppController {
         gameDataService.lynchen(name);
     }
 
+    @GetMapping(
+            value = "/nichtLynchen")
+    public void nichtLynchen() {
+
+        gameDataService.nichtLynchen();
+    }
+
     @PostMapping(
             value = "/verlieben")
     public void verlieben(@RequestBody String name) {

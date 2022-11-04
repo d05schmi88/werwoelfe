@@ -83,6 +83,11 @@ public class DatenService {
         daten.naechsterZustand();
     }
 
+    public void nichtLynchen() {
+
+        daten.naechsterZustand();
+    }
+
     public void verlieben(String name) {
 
         daten.setVerliebter(daten.getSpielerVonName(name));

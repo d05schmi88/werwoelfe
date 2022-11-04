@@ -22,6 +22,7 @@ export class GameComponent implements OnInit, OnDestroy {
     { 'name': 'Aussätzige', 'checked': false },
     { 'name': 'Werwolf', 'checked': false },
     { 'name': 'Seherin', 'checked': false },
+    { 'name': 'Prinz', 'checked': false },
     { 'name': 'Hexe', 'checked': false },
     { 'name': 'Amor', 'checked': false }];
   registriert = false;
@@ -353,6 +354,11 @@ export class GameComponent implements OnInit, OnDestroy {
   async lynchen(name: string) {
 
     await this.appService.lynchen(name).toPromise();
+  }
+
+  async nichtLynchen() {
+
+    await this.appService.nichtLynchen().toPromise();
   }
 
   async neustart() {
