@@ -218,8 +218,9 @@
 }
 
 .wrapper {
-  overflow: hidden;
+  overflow: scroll;
   position: relative;
+  background-color: #000000;
 }
 
 .img {
@@ -233,6 +234,9 @@
 
 .content {
   position: relative;
+}
+
+.center {
   text-align: center;
 }
 

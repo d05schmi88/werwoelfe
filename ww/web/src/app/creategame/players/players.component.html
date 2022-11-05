@@ -1,7 +1,7 @@
 <div class="fullsize wrapper">
     <img class="img" src="/assets/werwolf.png" alt="">
 
-    <div class="content white-font" style="margin-top: 20vh;">
+    <div class="content white-font center" style="margin-top: 80px;">
         <span *ngIf="!gestartet">
             <div *ngFor="let s of spieler">
                 <input [(ngModel)]="s.name" (keydown)="neuerSpieler()" placeholder="Spielername">

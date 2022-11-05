@@ -1,3 +1,13 @@
+.player-row {
+    display: grid;
+    grid-template-columns: 140px 140px;
+    row-gap: 5px;
+    justify-content: center;
+    text-align: start !important;
+    margin-top: 6px;
+    margin-left: 50px;
+}
+
 .grid-row {
     display: grid;
     grid-template-columns: 120px 120px;
