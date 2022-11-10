@@ -1,4 +1,4 @@
-package model;
+package model.werwoelfe;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

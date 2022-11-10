@@ -1,4 +1,4 @@
-package model;
+package model.werwoelfe;
 
 import static java.util.stream.Collectors.toList;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
-import app.DatenService;
+import app.werwoelfe.WerwoelfeService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,19 +47,19 @@ public class Daten {
     public void setSpielerRolle(SpielerRolle spielerRolle) {
 
         Spieler s = getSpielerVonName(spielerRolle.getName());
-        if (Objects.equal(spielerRolle.getRolle(), DatenService.WERWOLF)) {
+        if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.WERWOLF)) {
             this.werwoelfe.add(s);
-        } else if (Objects.equal(spielerRolle.getRolle(), DatenService.HEXE)) {
+        } else if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.HEXE)) {
             this.hexe = s;
-        } else if (Objects.equal(spielerRolle.getRolle(), DatenService.SEHERIN)) {
+        } else if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.SEHERIN)) {
             this.seherin = s;
-        } else if (Objects.equal(spielerRolle.getRolle(), DatenService.AMOR)) {
+        } else if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.AMOR)) {
             this.amor = s;
-        } else if (Objects.equal(spielerRolle.getRolle(), DatenService.VERFLUCHTER)) {
+        } else if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.VERFLUCHTER)) {
             this.verfluchter = s;
-        } else if (Objects.equal(spielerRolle.getRolle(), DatenService.AUSSAETZIGE)) {
+        } else if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.AUSSAETZIGE)) {
             this.aussaetzige = s;
-        } else if (Objects.equal(spielerRolle.getRolle(), DatenService.LYKANTROPHIN)) {
+        } else if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.LYKANTROPHIN)) {
             this.lykantrophin = s;
         }
 

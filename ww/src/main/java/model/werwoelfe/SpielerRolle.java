@@ -1,4 +1,4 @@
-package model;
+package model.werwoelfe;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

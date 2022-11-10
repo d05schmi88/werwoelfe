@@ -1,21 +1,36 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GameComponent } from './game/game.component';
+import { AgentUndercoverErstellenComponent } from './agentundercover/create/create.component';
+import { AgentUndercoverSpielComponent } from './agentundercover/game/game.component';
+import { AuswahlComponent } from './auswahl/auswahl.component';
+import { WerwoelfeErstellenComponent } from './werwoelfe/create/create.component';
+import { WerwoelfeSpielComponent } from './werwoelfe/game/game.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'game'
+    redirectTo: 'auswahl'
   },
   {
-    path: 'create',
-    loadChildren: () =>
-      import('./creategame/creategame.module').then((m) => m.CreateGameModule)
+    path: 'auswahl',
+    component: AuswahlComponent
   },
   {
-    path: 'game',
-    component: GameComponent
+    path: 'werwoelfe-spiel',
+    component: WerwoelfeSpielComponent
+  },
+  {
+    path: 'werwoelfe-erstellen',
+    component: WerwoelfeErstellenComponent
+  },
+  {
+    path: 'agent-undercover-erstellen',
+    component: AgentUndercoverErstellenComponent
+  },
+  {
+    path: 'agent-undercover-spiel',
+    component: AgentUndercoverSpielComponent
   }
 ];
 

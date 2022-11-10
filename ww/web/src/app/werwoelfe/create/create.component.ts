@@ -1,20 +1,19 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../animations/notification.service';
-import { AppService } from '../../app.service';
+import { WerwoelfeService } from '../../werwoelfe.service';
 
 @Component({
-  selector: 'players',
-  templateUrl: './players.component.html',
-  styleUrls: ['./players.component.scss']
+  selector: 'werwoelfe-erstellen',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.scss']
 })
-export class PlayersComponent {
+export class WerwoelfeErstellenComponent {
 
   spieler = [{ name: null, lebend: true }];
-  gestartet = false;
 
   constructor(
-    private appService: AppService,
+    private service: WerwoelfeService,
     private notificationService: NotificationService,
     private router: Router
   ) { }
@@ -28,11 +27,8 @@ export class PlayersComponent {
 
   weiter() {
 
-    this.appService.setSpieler(this.spieler.filter(p => p.name)).toPromise()
-      .then(res => {
-        this.gestartet = true;
-        this.router.navigate(['/game']);
-      })
+    this.service.setSpieler(this.spieler.filter(p => p.name)).toPromise()
+      .then(res => this.router.navigate(['/werwoelfe-spiel']))
       .catch(error => this.notificationService.error('Es ist ein Fehler aufgetreten.'));
   }
 }

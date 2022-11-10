@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
-import { NotificationService } from '../animations/notification.service';
-import { AppService } from '../app.service';
+import { NotificationService } from '../../animations/notification.service';
+import { WerwoelfeService } from '../../werwoelfe.service';
 
 @Component({
-  selector: 'game',
+  selector: 'werwoelfe-spiel',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class WerwoelfeSpielComponent implements OnInit, OnDestroy {
 
   /** Local */
   _admin = false;
@@ -53,7 +53,7 @@ export class GameComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private appService: AppService,
+    private service: WerwoelfeService,
     private notificationService: NotificationService,
     private router: Router
   ) { }
@@ -79,7 +79,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.spielerName = this.spielerAuswahl.filter(p => p.checked)[0].name;
     localStorage.setItem('spieler', this.spielerName);
     let rolle = this.rollen.filter(r => r.checked)[0].name;
-    this.appService.setSpielerRolle(this.spielerName, rolle).toPromise()
+    this.service.setSpielerRolle(this.spielerName, rolle).toPromise()
       .then(res => this.registriert = true)
       .catch(error => this.notificationService.error('Es ist ein Fehler aufgetreten.'));
   }
@@ -102,7 +102,7 @@ export class GameComponent implements OnInit, OnDestroy {
     const source = interval(1000);
     this.subscription = source.subscribe(val => {
 
-      this.appService.getDaten().toPromise()
+      this.service.getDaten().toPromise()
         .then(data => {
 
           if (!this.sindSpielerIdentisch(this.spieler, data.spieler)) {
@@ -300,38 +300,38 @@ export class GameComponent implements OnInit, OnDestroy {
 
   async verlieben(name: string) {
 
-    await this.appService.verlieben(name).toPromise();
+    await this.service.verlieben(name).toPromise();
   }
 
   async fressen(name: string) {
 
-    await this.appService.fressen(name).toPromise();
+    await this.service.fressen(name).toPromise();
   }
 
   async heilen() {
 
-    await this.appService.heilen().toPromise();
+    await this.service.heilen().toPromise();
   }
 
   async nichtHeilen() {
 
-    await this.appService.nichtHeilen().toPromise();
+    await this.service.nichtHeilen().toPromise();
   }
 
   async toeten(name: string) {
 
-    await this.appService.toeten(name).toPromise();
+    await this.service.toeten(name).toPromise();
   }
 
   async nichtToeten() {
 
-    await this.appService.nichtToeten().toPromise();
+    await this.service.nichtToeten().toPromise();
   }
 
   async pruefen(name: string) {
 
     this.pruefterName = name;
-    this.pruefergebnis = await this.appService.pruefen(name).toPromise();
+    this.pruefergebnis = await this.service.pruefen(name).toPromise();
   }
 
   async weiterPruefung() {
@@ -343,28 +343,28 @@ export class GameComponent implements OnInit, OnDestroy {
 
   async weiter() {
 
-    await this.appService.weiter().toPromise();
+    await this.service.weiter().toPromise();
   }
 
   async weiterMagenVerdorben() {
 
-    await this.appService.weiterMagenVerdorben().toPromise();
+    await this.service.weiterMagenVerdorben().toPromise();
   }
 
   async lynchen(name: string) {
 
-    await this.appService.lynchen(name).toPromise();
+    await this.service.lynchen(name).toPromise();
   }
 
   async nichtLynchen() {
 
-    await this.appService.nichtLynchen().toPromise();
+    await this.service.nichtLynchen().toPromise();
   }
 
   async neustart() {
 
     if (this.admin) {
-      await this.appService.neustart().toPromise();
+      await this.service.neustart().toPromise();
     }
 
     this.spielerAuswahl.forEach(p => p.checked = false);
@@ -376,6 +376,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   erstellen() {
 
-    this.router.navigate(['/create']);
+    this.router.navigate(['/werwoelfe-erstellen']);
   }
 }

@@ -1,17 +1,17 @@
-package app;
+package app.werwoelfe;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import lombok.Getter;
-import model.Daten;
-import model.Spieler;
-import model.SpielerRolle;
+import model.werwoelfe.Daten;
+import model.werwoelfe.Spieler;
+import model.werwoelfe.SpielerRolle;
 
 @Service
 @Getter
-public class DatenService {
+public class WerwoelfeService {
 
     public static final String WERWOLF = "Werwolf";
     public static final String AMOR = "Amor";

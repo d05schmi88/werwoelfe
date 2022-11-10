@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Injectable()
-export class AppService {
+export class WerwoelfeService {
 
-    private url = '/api';
+    private url = '/api/werwoelfe';
 
     constructor(
         private http: HttpClient

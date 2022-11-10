@@ -1,0 +1,72 @@
+<div class="fullsize wrapper">
+    <img class="img-high-opacity" src="/assets/agentundercover.png" alt="">
+
+    <div style="float: left; margin-left: 10px; margin-top: 6px;" class="content white-font">v1.1</div>
+
+    <div style="float: right; margin-right: 10px; font-size: x-small;" class="content white-font">
+        <button *ngIf="admin" mat-flat-button style="background: rgb(0, 0, 0, 0); color: white; font-size: x-small;"
+            (click)="neustart()">
+            <mat-icon>refresh</mat-icon>Neustart
+        </button>
+        <button *ngIf="admin" mat-flat-button
+            style="margin-right: 20px; background: rgb(0, 0, 0, 0); color: white; font-size: x-small;"
+            (click)="erstellen()">
+            <mat-icon>play_arrow</mat-icon>Neu
+        </button>
+        <mat-checkbox [(ngModel)]="admin" style="margin-right: 4px; margin-top: 8px;">
+            Admin
+        </mat-checkbox>
+    </div>
+
+    <div *ngIf="zustand === 'VORBEREITUNG'" class="content white-font center">
+        <div *ngIf="spielerAuswahl.length > 0">
+            <span *ngIf="!registriert">
+
+                <div style="margin-top: 80px;">
+                    <div style="text-decoration: underline;"><b>Dein Name</b></div>
+                    <div class="player-row">
+                        <div *ngFor="let p of spielerAuswahl">
+                            <mat-checkbox [(ngModel)]="p.checked">
+                                {{p.name}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 5vh">
+                        <button mat-raised-button class="success" (click)="apply()">Bestätigen</button>
+                    </div>
+                </div>
+            </span>
+            <span *ngIf="registriert">
+                <div style="margin-top: 20vh;">
+                    <div><b>Registriert</b></div>
+                </div>
+            </span>
+        </div>
+        <div *ngIf="spielerAuswahl.length === 0" style="margin-top: 20vh;">
+            Es wurde noch kein Spiel gestartet.
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'NEUERORT' && !ortBestaetigt" class="content white-font center">
+        <div style="margin-top: 20vh;" [innerHTML]="ort()">
+        </div>
+
+        <div style="margin-top: 5vh;">
+            <button mat-raised-button class="success" (click)="ok()">
+                Ok
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="zustand === 'SPIEL' || ortBestaetigt" class="content white-font center">
+        <div style="margin-top: 8vh;">
+            <b>Mögliche Orte:</b>
+        </div>
+        <div class="grid-row" style="margin-top: 3vh;">
+            <div *ngFor="let ort of orte">
+                {{ ort }}
+            </div>
+        </div>
+    </div>
+</div>
