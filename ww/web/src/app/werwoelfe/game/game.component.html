@@ -3,11 +3,13 @@
 
     <div style="float: left; margin-left: 10px; margin-top: 6px;" class="content white-font">v1.1</div>
 
-    <div style="float: right; margin-right: 10px; font-size: small;" class="content white-font">
-        <button *ngIf="admin" mat-flat-button style="background: rgb(0, 0, 0, 0); color: white;" (click)="neustart()">
+    <div style="float: right; margin-right: 10px; font-size: x-small;" class="content white-font">
+        <button *ngIf="admin" mat-flat-button style="background: rgb(0, 0, 0, 0); color: white; font-size: x-small;"
+            (click)="neustart()">
             <mat-icon>refresh</mat-icon> Neustart
         </button>
-        <button *ngIf="admin" mat-flat-button style="margin-right: 20px; background: rgb(0, 0, 0, 0); color: white;"
+        <button *ngIf="admin" mat-flat-button
+            style="margin-right: 20px; background: rgb(0, 0, 0, 0); color: white; font-size: x-small;"
             (click)="erstellen()">
             <mat-icon>play_arrow</mat-icon> Erstellen
         </button>
@@ -120,9 +122,9 @@
         </div>
 
         <div style="margin-top: 5vh;">
-            <button mat-raised-button class="ok" class="success" style="margin-right: 2px;" (click)="heilen()"
+            <button mat-raised-button class="ok" class="success" style="margin-right: 4px;" (click)="heilen()"
                 [disabled]="hatGeheilt || getSollSterben() === '-------'">Ja</button>
-            <button mat-raised-button class="ok" class="success" style="margin-left: 2px;"
+            <button mat-raised-button class="ok" class="success" style="margin-left: 4px;"
                 (click)="nichtHeilen()">Nein</button>
         </div>
     </div>

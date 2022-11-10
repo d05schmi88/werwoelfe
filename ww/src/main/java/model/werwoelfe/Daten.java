@@ -44,7 +44,7 @@ public class Daten {
     private Spieler verfluchter = null;
     private boolean umgewandelt = false;
 
-    public void setSpielerRolle(SpielerRolle spielerRolle) {
+    public synchronized void setSpielerRolle(SpielerRolle spielerRolle) {
 
         Spieler s = getSpielerVonName(spielerRolle.getName());
         if (Objects.equal(spielerRolle.getRolle(), WerwoelfeService.WERWOLF)) {
@@ -69,7 +69,7 @@ public class Daten {
         }
     }
 
-    private boolean alleRegistriert(List<String> registrierungen, List<Spieler> spieler) {
+    private synchronized boolean alleRegistriert(List<String> registrierungen, List<Spieler> spieler) {
 
         if (registrierungen.size() != spieler.size()) {
             return false;
@@ -84,12 +84,12 @@ public class Daten {
         return true;
     }
 
-    public Spieler getSpielerVonName(String name) {
+    public synchronized Spieler getSpielerVonName(String name) {
 
         return spieler.stream().filter(p -> Objects.equal(p.getName(), name)).findFirst().orElseThrow();
     }
 
-    public void fressen(String name) {
+    public synchronized void fressen(String name) {
 
         Spieler s = getSpielerVonName(name);
 
@@ -110,7 +110,7 @@ public class Daten {
         }
     }
 
-    public void heilen() {
+    public synchronized void heilen() {
 
         Spieler geheilter = spieler.stream().filter(Spieler::isSollSterben).findFirst().orElseThrow();
         this.hatGeheilt = true;
@@ -122,20 +122,20 @@ public class Daten {
         }
     }
 
-    public void toeten(String name) {
+    public synchronized void toeten(String name) {
 
         this.hatGetoetet = true;
         Spieler player = getSpielerVonName(name);
         player.setSollSterben(true);
     }
 
-    public void lynchen(String name) {
+    public synchronized void lynchen(String name) {
 
         Spieler player = getSpielerVonName(name);
         player.setSollSterben(true);
     }
 
-    public void naechsterZustand() {
+    public synchronized void naechsterZustand() {
 
         if (zustand == Zustand.NACHT) {
             if (amor != null && !verliebt) {
@@ -197,7 +197,7 @@ public class Daten {
         }
     }
 
-    public String getGesinnung(String name) {
+    public synchronized String getGesinnung(String name) {
 
         if (werwoelfe.stream().anyMatch(w -> Objects.equal(w.getName(), name))
                 || (lykantrophin != null && Objects.equal(name, lykantrophin.getName()))) {
@@ -207,12 +207,12 @@ public class Daten {
         }
     }
 
-    private long zaehleWerwoelfe() {
+    private synchronized long zaehleWerwoelfe() {
 
         return werwoelfe.stream().filter(Spieler::isLebend).count();
     }
 
-    private int zaehleDorf() {
+    private synchronized int zaehleDorf() {
 
         int count = 0;
         for (Spieler player : spieler.stream().filter(Spieler::isLebend).toList()) {
@@ -223,7 +223,7 @@ public class Daten {
         return count;
     }
 
-    private void aktualisiereOpfer() {
+    private synchronized void aktualisiereOpfer() {
 
         opfer = spieler.stream().filter(Spieler::isSollSterben) //
                 .map(p -> new Opfer(p.getName(), getGesinnung(p.getName()))).collect(toList());
@@ -244,7 +244,7 @@ public class Daten {
         spieler.forEach(p -> p.setSollSterben(false));
     }
 
-    public void neustart() {
+    public synchronized void neustart() {
 
         this.zustand = Zustand.VORBEREITUNG;
         this.spieler.forEach(p -> {
